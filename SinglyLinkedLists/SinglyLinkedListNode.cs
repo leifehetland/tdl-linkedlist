@@ -15,14 +15,22 @@ namespace SinglyLinkedLists
         private SinglyLinkedListNode next;
         public SinglyLinkedListNode Next
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return this.next; }
+            set {
+                /*'value' keyword is anything to the right side of the assign operator, '='*/
+                if (value == this)
+                {
+                    throw new ArgumentException();
+                }
+                this.next = value;
+
+            }
         }
 
-        private string value;
+        private string value; /*Access using "this.value"*/
         public string Value 
         {
-            get { throw new NotImplementedException(); }
+            get { return value; }
         }
 
         public static bool operator <(SinglyLinkedListNode node1, SinglyLinkedListNode node2)
@@ -39,7 +47,8 @@ namespace SinglyLinkedLists
 
         public SinglyLinkedListNode(string value)
         {
-            throw new NotImplementedException();
+            this.value = value;
+
 
             // Used by the visualizer:
             allNodes.Add(this);
@@ -48,12 +57,35 @@ namespace SinglyLinkedLists
         // READ: http://msdn.microsoft.com/en-us/library/system.icomparable.compareto.aspx
         public int CompareTo(Object obj)
         {
-            throw new NotImplementedException();
+            if (obj == null) return 1;
+
+            SinglyLinkedListNode difNode = obj as SinglyLinkedListNode;
+            if (difNode != null)
+                return this.value.CompareTo(difNode.value);
+            else
+                throw new ArgumentException("Object is not a difNode");
         }
 
         public bool IsLast()
         {
-            throw new NotImplementedException();
+            return this.next == null;
+        }
+
+        public override string ToString()
+        {
+            return value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is SinglyLinkedListNode)
+            {
+                var cast = (SinglyLinkedListNode)obj;   // throws an exception
+                return this.value == cast.value;
+            }
+            else {
+                return false;
+            }
         }
     }
 }

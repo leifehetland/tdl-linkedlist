@@ -7,6 +7,7 @@ namespace SinglyLinkedLists
 {
     public class SinglyLinkedList
     {
+        public SinglyLinkedListNode firstLocation { get; set; }
         public SinglyLinkedList()
         {
             // NOTE: This constructor isn't necessary, once you've implemented the constructor below.
@@ -37,7 +38,20 @@ namespace SinglyLinkedLists
 
         public void AddLast(string value)
         {
-            throw new NotImplementedException();
+            SinglyLinkedListNode lastNode = new SinglyLinkedListNode(value);
+            if (this.First() == null)
+            {
+                firstLocation = lastNode;
+            }
+            else
+            {
+                SinglyLinkedListNode latestNode = firstLocation;
+                while (!(latestNode.IsLast()))
+                {
+                    latestNode = latestNode.Next;
+                }
+                latestNode.Next = lastNode;
+            }
         }
 
         // NOTE: There is more than one way to accomplish this.  One is O(n).  The other is O(1).
@@ -48,12 +62,24 @@ namespace SinglyLinkedLists
 
         public string ElementAt(int index)
         {
-            throw new NotImplementedException();
+            SinglyLinkedListNode elementAtNode = firstLocation;
+            if (this.First() == null)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            else
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    elementAtNode = elementAtNode.Next;
+                }
+                return elementAtNode.Value.ToString();
+            }     
         }
 
         public string First()
         {
-            throw new NotImplementedException();
+            return firstLocation?.ToString();
         }
 
         public int IndexOf(string value)
