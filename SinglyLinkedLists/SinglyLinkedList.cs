@@ -125,7 +125,7 @@ namespace SinglyLinkedLists
         public string ElementAt(int index)
         {
             SinglyLinkedListNode elementAtNode = firstLocation;
-            if (this.First() == null)
+            if (this.First() == null || index > this.Count())
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -198,20 +198,31 @@ namespace SinglyLinkedLists
 
         public void Remove(string value)
         {
-            int nodeSpot = this.IndexOf(value);
-            var myList = new SinglyLinkedList();
-            for (int i = 0; i < this.Count(); i++)
+            SinglyLinkedListNode myRef = this.firstLocation;
+            SinglyLinkedListNode nodeBehind = null;
+
+            if (myRef.Value == value)
             {
-                if (i != nodeSpot)
-                {
-                    myList.AddLast(ElementAt(i));
-                }
+                this.firstLocation = myRef.Next;
             }
-            this.firstLocation = new SinglyLinkedListNode(myList.First());
-   
-            for (int j = 1; j < myList.Count(); j++)
+            else if (myRef != null)
             {
-                this.AddLast(myList.ElementAt(j));
+                while (myRef.Value != value)
+                {
+                    nodeBehind = myRef;
+                    if (myRef.Next != null)
+                    {
+                        myRef = myRef.Next;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (myRef != null)
+                {
+                    nodeBehind.Next = myRef.Next;
+                }
             }
         }
 
